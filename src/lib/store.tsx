@@ -15,6 +15,8 @@ type Ctx = {
   searchOpen: boolean;
   setSearchOpen: (v: boolean) => void;
   theme: "light" | "dark";
+  wishlist: string[];
+  toggleWish: (slug: string) => void;
   toggleTheme: () => void;
 };
 
@@ -25,12 +27,14 @@ export function StoreProvider({ children }: { children: ReactNode }) {
   const [loaded, setLoaded] = useState(false);
   const [cartOpen, setCartOpen] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
+  const [wishlist, setWishlist] = useState<string[]>([]);
   const [theme, setTheme] = useState<"light" | "dark">("light");
 
   useEffect(() => {
     try {
       setRaw(JSON.parse(localStorage.getItem("allab-cart") || "[]"));
     } catch {}
+    try { setWishlist(JSON.parse(localStorage.getItem("allab-wish") || "[]")); } catch {}
     const t = localStorage.getItem("allab-theme");
     if (t === "dark" || t === "light") setTheme(t);
     setLoaded(true);
@@ -38,6 +42,9 @@ export function StoreProvider({ children }: { children: ReactNode }) {
   useEffect(() => {
     if (loaded) localStorage.setItem("allab-cart", JSON.stringify(raw));
   }, [raw, loaded]);
+  useEffect(() => {
+    if (loaded) localStorage.setItem("allab-wish", JSON.stringify(wishlist));
+  }, [wishlist, loaded]);
   useEffect(() => {
     document.documentElement.classList.toggle("dark", theme === "dark");
     if (loaded) localStorage.setItem("allab-theme", theme);
@@ -65,6 +72,8 @@ export function StoreProvider({ children }: { children: ReactNode }) {
     setCartOpen,
     searchOpen,
     setSearchOpen,
+    wishlist,
+    toggleWish: (slug) => setWishlist((w) => (w.includes(slug) ? w.filter((x) => x !== slug) : [...w, slug])),
     theme,
     toggleTheme: () => setTheme((t) => (t === "light" ? "dark" : "light")),
   };

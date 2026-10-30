@@ -14,6 +14,8 @@ import { Route as AboutRouteImport } from './routes/about'
 import { Route as ConsultationRouteImport } from './routes/consultation'
 import { Route as RitualRouteImport } from './routes/ritual'
 import { Route as ShopRouteImport } from './routes/shop'
+import { Route as SkinFinderRouteImport } from './routes/skin-finder'
+import { Route as WishlistRouteImport } from './routes/wishlist'
 import { Route as ProductSlugRouteImport } from './routes/product.$slug'
 
 const IndexRoute = IndexRouteImport.update({
@@ -41,6 +43,16 @@ const ShopRoute = ShopRouteImport.update({
   path: '/shop',
   getParentRoute: () => rootRouteImport,
 } as any)
+const SkinFinderRoute = SkinFinderRouteImport.update({
+  id: '/skin-finder',
+  path: '/skin-finder',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const WishlistRoute = WishlistRouteImport.update({
+  id: '/wishlist',
+  path: '/wishlist',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ProductSlugRoute = ProductSlugRouteImport.update({
   id: '/product/$slug',
   path: '/product/$slug',
@@ -53,6 +65,8 @@ export interface FileRoutesByFullPath {
   '/consultation': typeof ConsultationRoute
   '/ritual': typeof RitualRoute
   '/shop': typeof ShopRoute
+  '/skin-finder': typeof SkinFinderRoute
+  '/wishlist': typeof WishlistRoute
   '/product/$slug': typeof ProductSlugRoute
 }
 export interface FileRoutesByTo {
@@ -61,6 +75,8 @@ export interface FileRoutesByTo {
   '/consultation': typeof ConsultationRoute
   '/ritual': typeof RitualRoute
   '/shop': typeof ShopRoute
+  '/skin-finder': typeof SkinFinderRoute
+  '/wishlist': typeof WishlistRoute
   '/product/$slug': typeof ProductSlugRoute
 }
 export interface FileRoutesById {
@@ -70,14 +86,31 @@ export interface FileRoutesById {
   '/consultation': typeof ConsultationRoute
   '/ritual': typeof RitualRoute
   '/shop': typeof ShopRoute
+  '/skin-finder': typeof SkinFinderRoute
+  '/wishlist': typeof WishlistRoute
   '/product/$slug': typeof ProductSlugRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
-    '/' | '/about' | '/consultation' | '/ritual' | '/shop' | '/product/$slug'
+    | '/'
+    | '/about'
+    | '/consultation'
+    | '/ritual'
+    | '/shop'
+    | '/skin-finder'
+    | '/wishlist'
+    | '/product/$slug'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/about' | '/consultation' | '/ritual' | '/shop' | '/product/$slug'
+  to:
+    | '/'
+    | '/about'
+    | '/consultation'
+    | '/ritual'
+    | '/shop'
+    | '/skin-finder'
+    | '/wishlist'
+    | '/product/$slug'
   id:
     | '__root__'
     | '/'
@@ -85,6 +118,8 @@ export interface FileRouteTypes {
     | '/consultation'
     | '/ritual'
     | '/shop'
+    | '/skin-finder'
+    | '/wishlist'
     | '/product/$slug'
   fileRoutesById: FileRoutesById
 }
@@ -94,6 +129,8 @@ export interface RootRouteChildren {
   ConsultationRoute: typeof ConsultationRoute
   RitualRoute: typeof RitualRoute
   ShopRoute: typeof ShopRoute
+  SkinFinderRoute: typeof SkinFinderRoute
+  WishlistRoute: typeof WishlistRoute
   ProductSlugRoute: typeof ProductSlugRoute
 }
 
@@ -134,6 +171,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ShopRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/skin-finder': {
+      id: '/skin-finder'
+      path: '/skin-finder'
+      fullPath: '/skin-finder'
+      preLoaderRoute: typeof SkinFinderRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/wishlist': {
+      id: '/wishlist'
+      path: '/wishlist'
+      fullPath: '/wishlist'
+      preLoaderRoute: typeof WishlistRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/product/$slug': {
       id: '/product/$slug'
       path: '/product/$slug'
@@ -150,6 +201,8 @@ const rootRouteChildren: RootRouteChildren = {
   ConsultationRoute: ConsultationRoute,
   RitualRoute: RitualRoute,
   ShopRoute: ShopRoute,
+  SkinFinderRoute: SkinFinderRoute,
+  WishlistRoute: WishlistRoute,
   ProductSlugRoute: ProductSlugRoute,
 }
 export const routeTree = rootRouteImport

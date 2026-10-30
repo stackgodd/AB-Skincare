@@ -4,6 +4,7 @@ import {
   Link,
   createRootRouteWithContext,
   useRouter,
+  useRouterState,
   HeadContent,
   Scripts,
   type ErrorComponentProps,
@@ -17,6 +18,8 @@ import { Header } from "@/components/site/Header";
 import { Footer } from "@/components/site/Footer";
 import { CartDrawer } from "@/components/site/CartDrawer";
 import { SearchOverlay } from "@/components/site/SearchOverlay";
+import { RevealObserver } from "@/components/site/Reveal";
+import { Toaster } from "@/components/ui/sonner";
 
 function NotFoundComponent() {
   return (
@@ -92,7 +95,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { rel: "stylesheet", href: appCss },
       { rel: "preconnect", href: "https://fonts.googleapis.com" },
       { rel: "preconnect", href: "https://fonts.gstatic.com", crossOrigin: "anonymous" },
-      { rel: "stylesheet", href: "https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500&family=Karla:wght@300;400;500&display=swap" },
+      { rel: "stylesheet", href: "https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500&family=Instrument+Sans:wght@400;500;600&display=swap" },
       { rel: "icon", href: "/favicon.ico", type: "image/x-icon" },
     ],
   }),
@@ -123,13 +126,22 @@ function RootComponent() {
     <QueryClientProvider client={queryClient}>
       <StoreProvider>
         <Header />
-        <main>
-          <Outlet />
-        </main>
+        <PageFade />
         <Footer />
         <CartDrawer />
         <SearchOverlay />
+        <Toaster position="bottom-center" />
       </StoreProvider>
     </QueryClientProvider>
+  );
+}
+
+function PageFade() {
+  const pathname = useRouterState({ select: (s) => s.location.pathname });
+  return (
+    <main key={pathname} className="page-fade">
+      <RevealObserver key={pathname} />
+      <Outlet />
+    </main>
   );
 }

@@ -8,7 +8,20 @@ import spf from "@/assets/spf.jpg";
 
 export type Category = "Cleanse" | "Tone" | "Hydrate" | "Treat" | "Eye" | "Repair" | "Protect";
 
+export type SkinType = "normal" | "dry" | "oily" | "combination" | "mature" | "sensitive";
+
+export const skinTypes: { id: SkinType; label: string; text: string }[] = [
+  { id: "normal", label: "For ‘normal’ skin", text: "Neither oily, nor dry—better described as ‘balanced’." },
+  { id: "dry", label: "For dry skin", text: "Can be fragile, flaky, and dull in appearance resulting from a lack of sebum." },
+  { id: "oily", label: "For oily skin", text: "Often shiny in appearance with large pores due to an over-supply of sebum." },
+  { id: "combination", label: "For combination skin", text: "Both oily and dry in nature, with a greater propensity to reactivity." },
+  { id: "mature", label: "For mature skin", text: "Naturally depleted with diminishing oil production and moisture retention." },
+  { id: "sensitive", label: "For sensitive skin", text: "Delicate and prone to aggravation and reactivity; can affect all skin types." },
+];
+
 export interface Product {
+  skin: SkinType[];
+  label?: "Notable formulation" | "Daily essential" | "New";
   slug: string;
   name: string;
   step: number;
@@ -27,6 +40,8 @@ export interface Product {
 export const products: Product[] = [
   {
     slug: "lumina-cleansing-gel",
+    skin: ["normal","oily","combination","sensitive"],
+    label: "Daily essential",
     name: "Lumina Cleansing Gel",
     step: 1,
     category: "Cleanse",
@@ -43,6 +58,7 @@ export const products: Product[] = [
   },
   {
     slug: "dewpoint-toner-mist",
+    skin: ["normal","dry","sensitive","mature"],
     name: "Dewpoint Toner Mist",
     step: 2,
     category: "Tone",
@@ -58,6 +74,8 @@ export const products: Product[] = [
   },
   {
     slug: "aqua-veil-essence",
+    skin: ["dry","mature","normal"],
+    label: "New",
     name: "Aqua Veil Essence",
     step: 3,
     category: "Hydrate",
@@ -73,6 +91,8 @@ export const products: Product[] = [
   },
   {
     slug: "radiance-c-serum",
+    skin: ["normal","combination","mature"],
+    label: "Notable formulation",
     name: "Radiance C Serum",
     step: 4,
     category: "Treat",
@@ -89,6 +109,7 @@ export const products: Product[] = [
   },
   {
     slug: "clarity-eye-cream",
+    skin: ["dry","mature","normal","sensitive"],
     name: "Clarity Eye Cream",
     step: 5,
     category: "Eye",
@@ -104,6 +125,8 @@ export const products: Product[] = [
   },
   {
     slug: "nocturne-barrier-cream",
+    skin: ["dry","mature","sensitive"],
+    label: "Notable formulation",
     name: "Nocturne Barrier Cream",
     step: 6,
     category: "Repair",
@@ -120,6 +143,8 @@ export const products: Product[] = [
   },
   {
     slug: "daily-defense-spf-50",
+    skin: ["normal","oily","combination","dry","mature","sensitive"],
+    label: "Daily essential",
     name: "Daily Defense SPF 50",
     step: 7,
     category: "Protect",
@@ -136,5 +161,15 @@ export const products: Product[] = [
 ];
 
 export const getProduct = (slug: string) => products.find((p) => p.slug === slug);
-export const formatPrice = (n: number) => `$${n.toFixed(0)}`;
+export const formatPrice = (n: number) => `NZ$ ${n.toFixed(2)}`;
+
+export const categoryInfo: Record<Category, string> = {
+  Cleanse: "Cleansers",
+  Tone: "Toners",
+  Hydrate: "Hydrators",
+  Treat: "Serums & Treats",
+  Eye: "Eye Care",
+  Repair: "Night Repair",
+  Protect: "Sun Care",
+};
 export const FREE_SHIPPING = 150;
